@@ -1,6 +1,45 @@
+server:
+  port: 8000
+#  포트 진입 8000 포트로 진입한다는 뜻
+  servlet:
+    context-path: /blog
+    # /blog 포트 진입시 무조건 거쳐야 하는 포트
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
 spring:
+  mvc:
+    view:
+#      컨트롤러가 파일을 리턴할 때 리턴값 앞에는 prefix를 리턴값 뒤에는 suffix를 붙혀줌
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
     username: cos
     password: cos1234
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      #ddl auto에 create를 하면 프로잭트를 재 실행 할때마다 테이블을 새로 만드는 것 , update를 하면 기존에 있던 테이블에 추가가 되는것 ,none를 하면
+      ddl-auto: update
+      naming:
+        #physicalNamingStrategyStandardImpl: entity(mysql에 테이블)를 만들때 변수명 그대로 데이터배이스 feed를 만들어줌
+        #SpringPhysicalNamingStrategy:camel표기법으로 작성된 변수명을 snake표기법으로 바꾸어 데이터배이스 feed를 만듬
+        #설명은 getinthere.tistory.com/20
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        #jpa가 사용하는 기본 넘버링 전략을 사용하지 않는다
+      use-new-id-generator-mappings: false
+      #MySQL문이 실행될 때 콘솔창에다 MySQL문을 띄워줌
+    show-sql: true
+    #MySQL 문을 콘솔창에 띄워줄 때 정렬이 되어 실행된다
+    properties:
+      hibernate.format_sql: true
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
